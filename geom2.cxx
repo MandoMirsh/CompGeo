@@ -81,8 +81,9 @@ public:
 };
 
 class IntCoord: public Coord{
+public:
 	int num;
-public:S
+
 	IntCoord(const int n,const double xob, const double yob){
 		x = xob;
 		y = yob;
@@ -90,8 +91,13 @@ public:S
 	}
 	IntCoord(const int n,Coord ob){
 		x = ob.x;
-		y = ob,y;
+		y = ob.y;
 		num = n;
+	}
+	IntCoord(){
+		x=0;
+		y=0;
+		num=0;
 	}
 	
 friend void sortx( const int n, IntCoord * p){
@@ -131,12 +137,12 @@ public:
 	output<<ob.c1<<ob.c2<<ob.c3<<ob.c4<<ob.c5<<ob.c6;
 	return output;
 }	
- friend std::istream& operator<< (std::istream& input, TestName ob){
+ friend std::istream& operator>> (std::istream& input, TestName ob){
 	input>>ob.c1>>ob.c2>>ob.c3>>ob.c4>>ob.c5>>ob.c6;
 	return input;
 }			
 
-}
+};
 
 int turn(Coord a, Coord b, Coord c){
 	float d11,d12,d21,d22;
@@ -151,12 +157,13 @@ int turn(Coord a, Coord b, Coord c){
 	return 1;
 };
 
-bool function ifcross(Interval ob1,ob2){
+bool ifcross(Segment & ob1,Segment & ob2){
 	//случай, когда обе вертикальны:
+	return true;
 }		
 int main(int argc, char **argv)
 {
-	Interval otr1,otr2;
+	Segment otr1(0,0),otr2(0,0);
 	TestName test;
 	//сначала вводим отрезки
 	std::cin>>test>>otr1>>otr2;
@@ -179,6 +186,19 @@ int main(int argc, char **argv)
 		arr[1] = dot2;
 		arr[2] = dot3;
 		arr[3] = dot4;
+		//упорочиваем по координате x
+		sortx(4,arr);
+		if (!otr1.vert&&!otr2.vert)
+			{
+				if (arr[0].num==arr[1].num)
+					{
+						std::cout<<test<<" NO\n";
+						delete[] arr;
+					}
+			}
+		
+		//если первые две точки от одного отрезка, то пересечения нет.
+		
 		//теперь сканируем, проверяя то, как расположенны отрезки
 	
 		//выводим результат
