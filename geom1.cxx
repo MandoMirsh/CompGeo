@@ -24,13 +24,13 @@
 
 #include <iostream>
 class Coord {
-	double x,y;
+	long double x,y;
 	public:
 	Coord(){
 		x=0;
 		y=0;
 	};
-	Coord(double a, double b=0){
+	Coord(long double a,long double b=0){
 		x=a;
 		y=b;
 	};
@@ -52,13 +52,13 @@ public:
 class Interval {
 	Coord a,b;
 public:
-	Interval(double x2, double y2){
+	Interval(const long double x2,const long double y2){
 		Coord ob1;
 		a = ob1;
 		Coord ob2(x2,y2);
 		b = ob2;
 	};
-	Interval(double x1, double y1,double x2, double y2){
+	Interval(const long double x1,const long double y1,const long double x2,const long double y2){
 		Coord ob1(x1,y1), ob2(x2,y2);
 		a = ob1;
 		b = ob2;
@@ -78,7 +78,7 @@ public:
 };
 
 int turn(Coord a, Coord b, Coord c){
-	float d11,d12,d21,d22;
+	long double d11,d12,d21,d22;
 	d11 = b.x - a.x;
 	d12 = c.x - a.x;
 	d21 = b.y - a.y;

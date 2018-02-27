@@ -25,12 +25,12 @@
 #include <iostream>
 class Coord {	
 public:
-	double x,y;
+	long double x,y;
 	Coord(){
 		x=0;
 		y=0;
 	};
-	Coord(double a, double b=0){
+	Coord(long double a,long double b=0){
 		x=a;
 		y=b;
 	};
@@ -54,14 +54,14 @@ public:
 	Coord a,b;
 	bool vert;
 
-	Segment(double x2, double y2){
+	Segment(long double x2,long double y2){
 		Coord ob1;
 		a = ob1;
 		Coord ob2(x2,y2);
 		b = ob2;
 		vert = (a.y == b.y);
 	};
-	Segment(double x1, double y1,double x2, double y2){
+	Segment(long double x1,long double y1,long double x2,long double y2){
 		Coord ob1(x1,y1), ob2(x2,y2);
 		a = ob1;
 		b = ob2;
@@ -102,7 +102,7 @@ class IntCoord: public Coord{
 public:
 	int num;
 
-	IntCoord(const int n,const double xob, const double yob){
+	IntCoord(const int n,const long double xob, const long double yob){
 		x = xob;
 		y = yob;
 		num = n;
@@ -161,18 +161,18 @@ public:
 }			
 };
 
-bool ifinx(double x, Segment ob){
+bool ifinx(const long double x, Segment ob){
 ob.orientx();
 return ((x >= ob.a.x)&&(x <= ob.b.x));
 }
 
-bool ifiny( double y, Segment ob){
+bool ifiny(const long double y, Segment ob){
 ob.orienty();
 return ((y >= ob.a.y)&&(y <= ob.b.y));
 }
 
 int turn(Coord a, Coord b, Coord c){
-	float d11,d12,d21,d22;
+	long double d11,d12,d21,d22;
 	d11 = b.x - a.x;
 	d12 = c.x - a.x;
 	d21 = b.y - a.y;
@@ -184,29 +184,29 @@ int turn(Coord a, Coord b, Coord c){
 	return 1;
 };
 
-double wherex(double y, Segment ob){
+long double wherex(const long double y, Segment ob){
 	// до вызова этой функции обязательно должна быть вызвана ifiny!!!
-	double lengthx, lengthy;
+	long double lengthx, lengthy;
     ob.orienty();
 	lengthy = ob.b.y-ob.a.y;
 	//нужно обойти ситуацию деления на ноль-_-
 	//не вызывать её, сцуко, для вертикальных.
 	lengthx = ob.b.x-ob.b.y;
-	double len= ob.b.y-y;
+	long double len= ob.b.y-y;
 	len /= lengthy;
 	lengthx*=len;
 	return ob.b.x-lengthx;
 }
 
-double wherey(double x, Segment ob){
+long double wherey(double x, Segment ob){
 	// до вызова этой функции обязательно должна быть вызвана ifiny!!!
-	double lengthx, lengthy;
+	long double lengthx, lengthy;
     ob.orientx();
 	lengthy = ob.b.y-ob.a.y;
 	//нужно обойти ситуацию деления на ноль-_-
 	//не вызывать её, сцуко, для вертикальных.
 	lengthx = ob.b.x-ob.b.y;
-	double len= ob.b.x-x;
+	long double len= ob.b.x-x;
 	len /= lengthx;
 	lengthy*=len;
 	return ob.b.y - lengthy;
@@ -246,7 +246,7 @@ int main(int argc, char **argv)
 		  if (otr1dot)
 		  	{
 		  		if (ob.a.y==ob.b.y)
-		  		
+					
 		  	}
 		  
 		  			
