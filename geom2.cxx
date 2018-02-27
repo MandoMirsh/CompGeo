@@ -49,11 +49,11 @@ public:
 };
 
 class Segment {
-	
+
 public:
 	Coord a,b;
 	bool vert;
-	
+
 	Segment(double x2, double y2){
 		Coord ob1;
 		a = ob1;
@@ -78,8 +78,26 @@ public:
 	 input>>ob.a>>ob.b;
 	 return  input;
  }; 
-};
+void orientx(){
+	if (a.x>b.x)
+		{
+			Coord s;
+			s=a;
+			a=b;
+			b=s;
+		}
+}
 
+void orienty(){
+	if (a.y>b.y)
+		{
+			Coord s;
+			s=a;
+			a=b;
+			b=s;
+		}
+}
+};
 class IntCoord: public Coord{
 public:
 	int num;
@@ -99,7 +117,7 @@ public:
 		y=0;
 		num=0;
 	}
-	
+
 friend void sortx( const int n, IntCoord * p){
 	IntCoord ob(1,0,0);
 	for (int i=0;i<n-1;i++)
@@ -141,8 +159,17 @@ public:
 	input>>ob.c1>>ob.c2>>ob.c3>>ob.c4>>ob.c5>>ob.c6;
 	return input;
 }			
-
 };
+
+bool ifinx(double x, Segment ob){
+ob.orientx();
+return ((x >= ob.a.x)&&(x <= ob.b.x));
+}
+
+bool ifiny( double y, Segment ob){
+ob.orienty();
+return ((y >= ob.a.y)&&(y <= ob.b.y));
+}
 
 int turn(Coord a, Coord b, Coord c){
 	float d11,d12,d21,d22;
@@ -157,16 +184,47 @@ int turn(Coord a, Coord b, Coord c){
 	return 1;
 };
 
+double wherex(double y, Segment ob){
+	// до вызова этой функции обязательно должна быть вызвана ifiny!!!
+	double lengthx, lengthy;
+    ob.orienty();
+	lengthy = ob.b.y-ob.a.y;
+	//нужно обойти ситуацию деления на ноль-_-
+	//не вызывать её, сцуко, для вертикальных.
+	lengthx = ob.b.x-ob.b.y;
+	double len= ob.b.y-y;
+	len /= lengthy;
+	lengthx*=len;
+	return ob.b.x-lengthx;
+}
+
+double wherey(double x, Segment ob){
+	// до вызова этой функции обязательно должна быть вызвана ifiny!!!
+	double lengthx, lengthy;
+    ob.orientx();
+	lengthy = ob.b.y-ob.a.y;
+	//нужно обойти ситуацию деления на ноль-_-
+	//не вызывать её, сцуко, для вертикальных.
+	lengthx = ob.b.x-ob.b.y;
+	double len= ob.b.x-x;
+	len /= lengthx;
+	lengthy*=len;
+	return ob.b.y - lengthy;
+}
+
+
 bool ifcross(Segment & ob1,Segment & ob2){
 	//случай, когда обе вертикальны:
 	return true;
 }		
+
 int main(int argc, char **argv)
 {
 	Segment otr1(0,0),otr2(0,0);
 	TestName test;
 	//сначала вводим отрезки
 	std::cin>>test>>otr1>>otr2;
+	bool  otr1dot = (otr1.a==otr1.b), otr2dot = (otr2.a==otr2.b);
 	//проверка на тупой случай
 	if ((otr1.a==otr2.a)||(otr1.a==otr2.b)||(otr1.b==otr2.a)||(otr1.b==otr2.b))
 		{
@@ -178,6 +236,22 @@ int main(int argc, char **argv)
 		}
 	else
 	{
+		// Если оба отрезка являются точками:
+		if (otr1dot&&otr2dot)
+			{
+				std::cout<<test<<" NO\n";
+			}
+		else
+		{// если только один из них точка:
+		  if (otr1dot)
+		  	{
+		  		if (ob.a.y==ob.b.y)
+		  		
+		  	}
+		  
+		  			
+		  //если оба не точки
+		  			
 		//теперь упорядочиваем по координате x с сохранением информации о принадлежности.
 		IntCoord * arr = new IntCoord[4];
 		IntCoord dot1(1,otr1.a),dot2(1,otr1.b),dot3(2,otr2.a),dot4(2,otr2.b);
@@ -196,13 +270,13 @@ int main(int argc, char **argv)
 						delete[] arr;
 					}
 			}
-		
+
 		//если первые две точки от одного отрезка, то пересечения нет.
-		
+
 		//теперь сканируем, проверяя то, как расположенны отрезки
-	
+
 		//выводим результат
+		}
 	}
 	return 0;
 }
-
