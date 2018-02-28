@@ -36,7 +36,7 @@ class Coord {
 	};
 public:
  bool operator==(Coord ob2){
-	 return ((x=ob2.x)&&(y=ob2.y));
+	 return ((x==ob2.x)&&(y==ob2.y));
  };
  friend std::ostream& operator<< (std::ostream& output, Coord ob){
 	output<<'('<<ob.x<<" , "<<ob.y<<')';

@@ -38,7 +38,7 @@ struct Coord {
 	};
 
  bool operator==(Coord ob2){
-	 return ((x=ob2.x)&&(y=ob2.y));
+	 return ((x==ob2.x)&&(y==ob2.y));
  };
 
  friend std::ostream& operator<< (std::ostream& output, Coord ob){
@@ -268,7 +268,7 @@ bool ifcross(Segment & ob1, Segment & ob2, Coord & dot){
 	bool dot1, dot2;
 
 	dot1 = ifdot(ob1,A1,B1,C1);
-	dot2 = ifdot(ob2,A2,B2,c2);
+	dot2 = ifdot(ob2,A2,B2,C2);
 	if (dot1&&dot2)
 		{
 			if(ob1.a==ob2.a)
@@ -315,14 +315,14 @@ int main(int argc, char **argv)
 {
 	Segment otr1(0,0),otr2(0,0);
 	Coord dot;
-	TestName test;
+	//TestName test;
 	//сначала вводим отрезки
-		std::cin>>test>>otr1>>otr2;
-		bool  otr1dot = (otr1.a==otr1.b), otr2dot = (otr2.a==otr2.b);
+		std::cin>>otr1.a>>otr1.b>>otr2.a>>otr2.b;
+		std::cout<<otr1.a<<otr1.b<<otr2.a<<otr2.b;
 		//проверка на тупой случай
 		if ((otr1.a==otr2.a)||(otr1.a==otr2.b)||(otr1.b==otr2.a)||(otr1.b==otr2.b))
 			{
-				std::cout<<test<<" YES ";
+				std::cout<<" YES ";
 				if ((otr1.a==otr2.a)||(otr1.a==otr2.b))
 					std::cout<<otr1.a<<'\n';
 				else
@@ -331,9 +331,9 @@ int main(int argc, char **argv)
 		else
 			{
 				if (ifcross(otr1,otr2,dot))
-					std::cout<<test<<" YES "<<dot<<'\n';
+					std::cout<<" YES "<<dot<<'\n';
 				else
-					std::cout<<test<<" NO\n";
+					std::cout<<" NO\n";
 			}
 	return 0;
 }
