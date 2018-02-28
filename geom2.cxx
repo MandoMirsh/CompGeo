@@ -226,33 +226,6 @@ long double wherey(double x, Segment ob){
 	lengthy*=len;
 	return ob.b.y - lengthy;
 }
- 
-/*inline int area (Coord a, Coord b, Coord c) {
-	return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
-}
- 
-inline bool intersect_1 (long double a, long double b, long double c, long double d) {
-	if (a > b)  swap (a, b);
-	if (c > d)  swap (c, d);
-	return max(a,c) <= min(b,d);
-}
- 
-bool intersect (Coord a, Coord b, Coord c, Coord d) {
-	return intersect_1 (a.x, b.x, c.x, d.x)
-		&& intersect_1 (a.y, b.y, c.y, d.y)
-		&& area(a,b,c) * area(a,b,d) <= 0
-		&& area(c,d,a) * area(c,d,b) <= 0;
-}
-
-bool ifcross( Segment&ob1, Segment&ob2)
-{
-	int t1,t2,t3,t4;
-	t1 = turn(ob1.a,ob1.b,ob2.a);
-	t2 = turn(ob1.a,ob1.b,ob2.b);
-	t3 = turn(ob2.a,ob2.b,ob1.a);
-	t4 = turn(ob2.a,ob2.b,ob1.b);
-	return (((t1!=t2)||(t1==0))&&((t3!=t4)||(t4==0)))
-*/
 
 bool ifdot(Segment&ob, int&a,int&b,int&c){
 	
@@ -302,15 +275,54 @@ bool ifcross(Segment & ob1, Segment & ob2, Coord & dot){
 						return false;
 				}
 		}
-	 //теперь мы точно имеем 2 отрезка. Ищем точку пересечения их прямых.
-	dot.x = C2*B1-B2*C1;
-	dot.y = A2*C1-A1*C2;
-	int del = A1*B2-A2*B1;
-	dot.x/=del;
-	dot.y/=del;
-	return (ifinx(dot.x,ob1)&&ifiny(dot.y,ob1));
+	 //теперь мы точно имеем 2 отрезка. Либо параллельных, либо налегающих, либ пересекающихся.
+	 //проверим параллельность
+	 //если на пересекающихся прямых:
+	 if (A1*B2-A2*B1)
+		{
+			// Ищем точку пересечения их прямых.
+			dot.x = C2*B1-B2*C1;
+			dot.y = A2*C1-A1*C2;
+			int del = A1*B2-A2*B1;
+			dot.x/=del;
+			dot.y/=del;
+			return (ifinx(dot.x,ob1)&&ifiny(dot.y,ob1));
+		}
+	 //теперь прямые либо параллельны, либо совпадают:
+	 //проверить параллельность прямых:	 
+	 if (A1*C2 - C1*A2!=0)
+			return false;
+	 if (ob1.a.y!=ob1.b.y) 
+		{
+			ob1.orienty();
+			ob2.orienty();
+			if (ifiny(ob1.a.y,ob2))
+				{
+					dot = ob1.a;
+					return true;
+				}
+			if (ifiny(ob1.b.y,ob2))
+				{
+					dot = ob1.b;
+					return true;
+				}
+				return false;
+		}
+	//остался один случай - горизонтальный.
+	ob1.orientx();
+	ob2.orientx();
+	if(ifinx(ob1.a.x, ob2))
+		{
+			dot = ob1.a;
+			return true;
+		}
+	if (ifinx(ob1.b.x,ob2))
+		{
+			dot = ob1.b;
+			return true;
+		}
+	return false;
 }
-
 int main(int argc, char **argv)
 {
 	Segment otr1(0,0),otr2(0,0);
@@ -322,7 +334,7 @@ int main(int argc, char **argv)
 		//проверка на тупой случай
 		if ((otr1.a==otr2.a)||(otr1.a==otr2.b)||(otr1.b==otr2.a)||(otr1.b==otr2.b))
 			{
-				std::cout<<" YES ";
+				std::cout<<" YES1 ";
 				if ((otr1.a==otr2.a)||(otr1.a==otr2.b))
 					std::cout<<otr1.a<<'\n';
 				else
